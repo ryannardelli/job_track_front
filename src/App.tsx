@@ -1,10 +1,8 @@
-import './App.css'
+import { LoginForm } from "./components/domain/Auth/LoginForm"
 
 function App() {
   return (
-   <div className='flex justify-center items-center h-screen'>
-      Hello Vite and Tailwind
-   </div>
+    <LoginForm />
   )
 }
 
