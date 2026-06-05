@@ -1,73 +1,68 @@
-# React + TypeScript + Vite
+# Welcome to the Barbershop Management System Frontend Documentation
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Modern web application built with React, Vite, TypeScript, and Tailwind CSS, designed to streamline barbershop operations, including appointment scheduling, customer management, and service administration.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The Barbershop Management System provides an intuitive interface for barbers and administrators to manage appointments, customers, services, and daily operations efficiently. The application integrates with a secure backend API and Firebase Authentication for user management.
 
-## React Compiler
+## Tech Stack & Technologies Used
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* React
+* Vite
+* TypeScript
+* Tailwind CSS
+* Context API
+* Zod
+* Firebase
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Architecture
+The application is structured using a layered architecture with DDD principles, promoting clear separation between domain, UI, and infrastructure, while ensuring maintainability and scalability.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Project Structure
+  ```bash
+📁 src/
+ ┣ 📁 components/     → Reusable components
+ ┣ 📁 pages/          → System pages or screens
+ ┣ 📁 assets/         → Static assets (images, icons, fonts)
+ ┣ 📁 adapters/       → Adapters / integration with APIs or external formats
+ ┣ 📁 layout/         → Layout components (header, footer, sidebar)
+ ┣ 📁 hooks/          → Custom hooks
+ ┣ 📁 types/          → Global types and interfaces
+ ┣ 📁 schemas/        → Validation schemas (e.g., Zod, Yup)
+ ┣ 📁 services/       → Services (APIs, Axios, configs)
+ ┣ 📁 provider/       → Context API (global providers)
+ ┣ 📁 reducer/        → Context API reducers
+ ┣ 📁 models/         → Data models (types, interfaces, entities)
+ ┣ 📁 router/         → Route configuration (React Router)
+ ┣ 📁 templates/      → Base UI layouts or structures
+ ┣ 📁 utils/          → Utility functions and helpers
+ ┣ main.tsx           → Main entry file
+ ┗ App.tsx            → Main routing and layout configuration
+   ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Getting Started
+### 1. Clone the repository
+  ```bash
+git clone https://github.com/ryannardelli/job_track_front.git
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 2. Navigate to the project directory
+  ```bash
+cd system_barbershop_front
+   ```
+### 3. Install dependencies
+  ```bash
+npm install
+   ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 4. Run in development mode
+  ```bash
+npm run dev
+   ```
+### If everything is configured correctly, the following service will be available:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+`http://localhost:5173`
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
