@@ -6,6 +6,7 @@ import {
 
 import { JobCard } from "@/components/domain/Jobs/JobCard";
 import { KanbanColumnProps } from "@/components/domain/Jobs/Board/KanbanColumn/KanbanColumn.types";
+import { CreateJobButton } from "@/components/domain/Button/CreateJobButton/CreateJobButton";
 
 export function KanbanColumn({ column }: KanbanColumnProps) {
   const { setNodeRef, isOver } = useDroppable({
@@ -48,9 +49,7 @@ export function KanbanColumn({ column }: KanbanColumnProps) {
         </div>
       </SortableContext>
 
-      <button className="mt-3 w-full py-2 bg-transparent border border-dashed border-slate-300 rounded-lg text-xs font-medium text-slate-500 hover:bg-white hover:text-blue-600 hover:border-blue-300 transition-all">
-        + Adicionar vaga
-      </button>
+      <CreateJobButton />
     </div>
   );
 }

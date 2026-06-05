@@ -1,3 +1,6 @@
+import { ButtonNewJob } from "@/components/ui/Button/ButtonNewJob";
+import { Plus } from "lucide-react";
+
 export function Header() {
     const handleLogout = () => {
             alert('Desconectando do JobTrack...');
@@ -24,10 +27,14 @@ export function Header() {
           <button className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 font-medium transition-colors">
             <span>⏳</span> Filtros
           </button>
-          
-          <button className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors shadow-sm">
-            <span className="text-base font-bold">+</span> Nova Vaga
-          </button>
+
+          <ButtonNewJob
+            variant="primary"
+            icon={<Plus size={14} />}
+            onClick={() => setIsOpen(true)}
+          >
+            Nova vaga
+          </ButtonNewJob>
 
           <div className="h-6 w-[1px] bg-slate-300 hidden sm:block" />
 
