@@ -6,7 +6,7 @@ type PrivateRouteProps = {
 };
 
 export function PrivateRoute({ children }: PrivateRouteProps) {
-  const isAuthenticated = false;
+  const isAuthenticated = true;
   const loading = false;
 
   if (loading) {
