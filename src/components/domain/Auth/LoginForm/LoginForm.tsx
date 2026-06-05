@@ -74,18 +74,6 @@ export function LoginForm() {
             </div>
           </div>
 
-          <div className="flex items-center">
-            <input
-              id="remember-me"
-              name="remember-me"
-              type="checkbox"
-              className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded cursor-pointer"
-            />
-            <label htmlFor="remember-me" className="ml-2 block text-xs text-slate-600 cursor-pointer select-none">
-              Lembrar de mim por 30 dias
-            </label>
-          </div>
-
           <button
             type="submit"
             disabled={isLoading}
