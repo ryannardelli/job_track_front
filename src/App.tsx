@@ -1,8 +1,8 @@
-import { LoginForm } from "./components/domain/Auth/LoginForm"
+import { MainRouter } from "@/routers/MainRouter"
 
 function App() {
   return (
-    <LoginForm />
+    <MainRouter />
   )
 }
 
