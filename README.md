@@ -14,7 +14,6 @@ The Barbershop Management System provides an intuitive interface for barbers and
 * Tailwind CSS
 * Context API
 * Zod
-* Firebase
 
 
 ## Architecture
