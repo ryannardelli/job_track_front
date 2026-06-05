@@ -1,3 +1,4 @@
+import { useDroppable } from "@dnd-kit/core";
 import {
   SortableContext,
   verticalListSortingStrategy,
@@ -6,17 +7,21 @@ import {
 import { JobCard } from "@/components/domain/Jobs/JobCard";
 import { KanbanColumnProps } from "@/components/domain/Jobs/Board/KanbanColumn/KanbanColumn.types";
 
-export function KanbanColumn({
-  column,
-}: KanbanColumnProps) {
+export function KanbanColumn({ column }: KanbanColumnProps) {
+  const { setNodeRef, isOver } = useDroppable({
+    id: column.id,
+  });
+
   return (
-    <div className="w-[290px] bg-slate-100/70 rounded-xl p-3 flex flex-col shrink-0 h-full max-h-full">
-      
+    <div
+      ref={setNodeRef}
+      className={`w-[290px] rounded-xl p-3 flex flex-col shrink-0 h-full max-h-full transition-colors
+        ${isOver ? "bg-slate-200/80" : "bg-slate-100/70"}
+      `}
+    >
       <div className="flex items-center justify-between mb-3 px-1 shrink-0">
         <div className="flex items-center gap-2">
-          <span
-            className={`w-2.5 h-2.5 rounded-full ${column.color}`}
-          />
+          <span className={`w-2.5 h-2.5 rounded-full ${column.color}`} />
 
           <span className="font-bold text-sm text-slate-800">
             {column.title}
@@ -43,7 +48,7 @@ export function KanbanColumn({
         </div>
       </SortableContext>
 
-      <button className="mt-3 w-full py-2 bg-transparent border border-dashed border-slate-300 rounded-lg text-xs font-medium text-slate-500 hover:bg-white hover:text-blue-600 hover:border-blue-300 transition-all shrink-0">
+      <button className="mt-3 w-full py-2 bg-transparent border border-dashed border-slate-300 rounded-lg text-xs font-medium text-slate-500 hover:bg-white hover:text-blue-600 hover:border-blue-300 transition-all">
         + Adicionar vaga
       </button>
     </div>

@@ -1,7 +1,7 @@
 export const columns = [
   {
+    id: "wishlist",
     title: "Wishlist",
-    count: 3,
     color: "bg-blue-600",
     cards: [
       {
@@ -30,9 +30,10 @@ export const columns = [
       },
     ],
   },
+
   {
+    id: "applied",
     title: "Aplicadas",
-    count: 4,
     color: "bg-amber-500",
     cards: [
       {
@@ -57,7 +58,8 @@ export const columns = [
         company: "Globo",
         info: "Aplicada em 29/05/2026",
         badge: "G",
-        badgeBg: "bg-gradient-to-r from-pink-500 to-purple-500 text-white",
+        badgeBg:
+          "bg-gradient-to-r from-pink-500 to-purple-500 text-white",
       },
       {
         id: "job-7",
@@ -69,9 +71,10 @@ export const columns = [
       },
     ],
   },
+
   {
+    id: "interviews",
     title: "Entrevistas",
-    count: 3,
     color: "bg-purple-600",
     cards: [
       {
@@ -100,9 +103,10 @@ export const columns = [
       },
     ],
   },
+
   {
+    id: "offers",
     title: "Propostas",
-    count: 1,
     color: "bg-green-600",
     cards: [
       {
@@ -115,9 +119,10 @@ export const columns = [
       },
     ],
   },
+
   {
+    id: "rejected",
     title: "Rejeitadas",
-    count: 5,
     color: "bg-red-500",
     cards: [
       {
