@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
 
+import { RouterLink } from '@/components/ui/Navigation/RouterLink';
+
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -93,9 +95,9 @@ export function LoginForm() {
         <div className="mt-8 pt-6 border-t border-slate-100 text-center">
           <p className="text-sm text-slate-600">
             Não tem uma conta?{' '}
-            <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500 transition-colors">
+            <RouterLink href="/register" className="font-semibold text-indigo-600 hover:text-indigo-500 transition-colors">
               Cadastre-se grátis
-            </a>
+            </RouterLink>
           </p>
         </div>
 
