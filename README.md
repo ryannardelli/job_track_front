@@ -55,7 +55,7 @@ git clone https://github.com/ryannardelli/job_track_front.git
 
 ### 2. Navigate to the project directory
   ```bash
-cd system_barbershop_front
+cd job_track_front
    ```
 ### 3. Install dependencies
   ```bash
