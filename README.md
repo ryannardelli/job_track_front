@@ -1,10 +1,16 @@
-# Welcome to the Barbershop Management System Frontend Documentation
+# Welcome to the JobTrack Frontend Documentation
 
-Modern web application built with React, Vite, TypeScript, and Tailwind CSS, designed to streamline barbershop operations, including appointment scheduling, customer management, and service administration.
+Modern web application built with React, Vite, TypeScript, and Tailwind CSS, designed to help job seekers organize and track their job applications throughout the recruitment process.
 
 ## Overview
 
-The Barbershop Management System provides an intuitive interface for barbers and administrators to manage appointments, customers, services, and daily operations efficiently. The application integrates with a secure backend API and Firebase Authentication for user management.
+JobTrack is a platform developed to assist candidates in managing their job applications in a centralized and organized way.
+
+Many job seekers apply to multiple positions simultaneously and often lose track of application dates, interview schedules, company responses, and the current status of each opportunity. JobTrack solves this problem by providing a simple and intuitive interface where users can monitor every stage of their job search journey.
+
+The platform allows users to register job opportunities, track application statuses, schedule interviews, record notes and feedback, and visualize their progress through the recruitment pipeline. By centralizing all application-related information in one place, JobTrack helps candidates stay organized, improve their follow-up process, and make better decisions during their job search.
+
+The frontend integrates with a secure backend API and Firebase Authentication, ensuring reliable user management, protected access, and a seamless user experience.
 
 ## Tech Stack & Technologies Used
 
