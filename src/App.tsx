@@ -1,8 +1,11 @@
+import { AuthProvider } from "@/providers/AuthProvider"
 import { MainRouter } from "@/routers/MainRouter"
 
 function App() {
   return (
-    <MainRouter />
+    <AuthProvider>
+      <MainRouter />
+    </AuthProvider>
   )
 }
 
