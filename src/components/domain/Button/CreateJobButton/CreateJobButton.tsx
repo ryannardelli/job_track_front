@@ -5,10 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ModalCreateBase } from "@components/ui/Modal/ModalCreateBase";
 import { ButtonNewJob } from "@/components/ui/Button/ButtonNewJob";
 import { ApplicationFormData, ApplicationSchema } from "@/schemas/Applications/ApplicationsSchema";
+import { useApplications } from "@/hooks/useApplications";
 
 export function CreateJobButton() {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { create } = useApplications();
 
   const {
     register,
@@ -26,24 +28,34 @@ export function CreateJobButton() {
   });
 
   const onFormSubmit = async (data: ApplicationFormData) => {
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      console.log("Nova vaga criada:", data);
+    await create({
+      company: data.company,
+      position: data.position,
+      vacancyUrl: data.vacancyUrl || undefined,
+      status: data.status,
+      applicationDate: data.applicationDate,
+      notes: data.notes || undefined,
+    });
 
-      alert("Vaga criada com sucesso!");
+    reset();
 
-      reset();
-      setIsOpen(false);
-    } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : "Erro ao criar vaga.";
+    setIsOpen(false);
 
-      alert(errorMessage);
-    } finally {
-      setLoading(false);
-    }
-  };
+    alert("Vaga criada com sucesso!");
+  } catch (err) {
+    const errorMessage =
+      err instanceof Error
+        ? err.message
+        : "Erro ao criar candidatura.";
+
+    alert(errorMessage);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <>
