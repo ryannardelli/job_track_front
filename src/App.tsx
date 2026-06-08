@@ -1,12 +1,15 @@
 import { AuthProvider } from "@/providers/AuthProvider"
+import { DashboardProvider } from "@/providers/DashboardProvider";
 import { MainRouter } from "@/routers/MainRouter"
 
 function App() {
   return (
     <AuthProvider>
-      <MainRouter />
+      <DashboardProvider>
+        <MainRouter />
+      </DashboardProvider>
     </AuthProvider>
   )
 }
 
-export default App
+export default App;
