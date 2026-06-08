@@ -139,29 +139,26 @@ export const ApplicationProvider = ({
   };
 
   const remove = async (uuid: string) => {
-    try {
-      dispatchApplication({ type: "SET_LOADING", payload: true });
+  try {
+    dispatchApplication({ type: "SET_LOADING", payload: true });
 
-      await deleteApplication(state.token as string, uuid);
+    await deleteApplication(state.token as string, uuid);
 
-      dispatchApplication({
-        type: "DELETE_APPLICATION",
-        payload: uuid,
-      });
-    } catch (error) {
-      dispatchApplication({
-        type: "SET_ERROR",
-        payload:
-          error instanceof Error
-            ? error.message
-            : "Erro ao deletar candidatura",
-      });
+    await loadApplicationBoard();
+  } catch (error) {
+    dispatchApplication({
+      type: "SET_ERROR",
+      payload:
+        error instanceof Error
+          ? error.message
+          : "Erro ao deletar candidatura",
+    });
 
-      throw error;
-    } finally {
-      dispatchApplication({ type: "SET_LOADING", payload: false });
-    }
-  };
+    throw error;
+  } finally {
+    dispatchApplication({ type: "SET_LOADING", payload: false });
+  }
+};
 
   const updateStatus = async (
     uuid: string,

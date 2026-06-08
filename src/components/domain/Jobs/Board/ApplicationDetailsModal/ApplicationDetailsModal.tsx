@@ -5,53 +5,31 @@ import {
   Briefcase, Calendar, Link2, FileText, CheckCircle, 
   Fingerprint, User, Clock, Edit2, Trash2, X, Save 
 } from "lucide-react";
-
-interface ApplicationData {
-  uuid: string;
-  company: string;
-  position: string;
-  vacancyUrl: string | null;
-  status: "APPLIED" | "INTERVIEW" | "OFFER" | "REJECTED" | string;
-  applicationDate: string | null;
-  notes: string | null;
-  userId: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { Application } from "@/models/Applications/Application";
+import { getStatusBadgeConfig } from "@/utils/getStatusBadgeConfig";
+import { useApplications } from "@/hooks/useApplications";
 
 interface ApplicationDetailsModalProps {
   isOpen: boolean;
-  application: ApplicationData | null;
+  application: Application | null;
   onClose: () => void;
-  onEdit: (updatedData: ApplicationData) => void;
+  onEdit: (updatedData: Application) => void;
   onDelete: (uuid: string) => void;
 }
-
-const getStatusBadgeConfig = (status: string) => {
-  switch (status?.toUpperCase()) {
-    case "OFFER":
-      return "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900";
-    case "REJECTED":
-      return "bg-rose-100 text-rose-800 dark:bg-rose-950/40 dark:text-rose-400 border-rose-200 dark:border-rose-900";
-    case "INTERVIEW":
-      return "bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400 border-amber-200 dark:border-amber-900";
-    default:
-      return "bg-blue-100 text-blue-800 dark:bg-blue-950/40 dark:text-blue-400 border-blue-200 dark:border-blue-900";
-  }
-};
 
 export function ApplicationDetailsModal({
   isOpen,
   application,
   onClose,
   onEdit,
-  onDelete,
 }: ApplicationDetailsModalProps) {
-  if (!application) return null;
+  const { remove } = useApplications();
 
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState<ApplicationData>({ ...application });
+  const [formData, setFormData] = useState<Application>({ ...application });
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  if (!application) return null;
 
   const handleClose = () => {
     setIsEditing(false);
@@ -72,27 +50,24 @@ export function ApplicationDetailsModal({
   };
 
   const handleConfirmDelete = () => {
-    // Aqui dispara a função que vem do componente pai para deletar na API
-    onDelete(application.uuid);
+    remove(application.uuid);
     handleClose();
   };
 
   return (
     <ModalShowBase isOpen={isOpen} title={isEditing ? "Editar Candidatura" : application.position} onClose={handleClose}>
-      
-      {/* HEADER DE AÇÕES DO MODAL (UX Fluida para alternar estados) */}
       <div className="flex justify-end gap-2 mb-4 pb-3 border-b border-gray-100 dark:border-zinc-800">
         {!isEditing && !showDeleteConfirm && (
           <>
             <button
               onClick={() => setIsEditing(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 dark:text-blue-400 dark:bg-blue-950/30 dark:hover:bg-blue-950/50 rounded-lg transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 dark:text-blue-400 dark:bg-blue-950/30 dark:hover:bg-blue-950/50 rounded-lg transition-colors cursor-pointer"
             >
               <Edit2 className="w-3.5 h-3.5" /> Editar
             </button>
             <button
               onClick={() => setShowDeleteConfirm(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-rose-600 bg-rose-50 hover:bg-rose-100 dark:text-rose-400 dark:bg-rose-950/30 dark:hover:bg-rose-950/50 rounded-lg transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-rose-600 bg-rose-50 hover:bg-rose-100 dark:text-rose-400 dark:bg-rose-950/30 dark:hover:bg-rose-950/50 rounded-lg transition-colors cursor-pointer"
             >
               <Trash2 className="w-3.5 h-3.5" /> Excluir
             </button>
@@ -100,7 +75,6 @@ export function ApplicationDetailsModal({
         )}
       </div>
 
-      {/* TELA DE CONFIRMAÇÃO DE EXCLUSÃO (Segurança de UX) */}
       {showDeleteConfirm ? (
         <div className="p-4 bg-rose-50 dark:bg-rose-950/20 border border-rose-100 dark:border-rose-900/50 rounded-xl space-y-4">
           <div>
@@ -112,7 +86,7 @@ export function ApplicationDetailsModal({
           <div className="flex justify-end gap-2">
             <button
               onClick={() => setShowDeleteConfirm(false)}
-              className="px-3 py-1.5 text-xs font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 dark:bg-zinc-800 dark:text-gray-300 dark:border-zinc-700"
+              className="px-3 py-1.5 text-xs font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 dark:bg-zinc-800 dark:text-gray-300 dark:border-zinc-700 cursor-pointer"
             >
               Cancelar
             </button>
@@ -125,10 +99,6 @@ export function ApplicationDetailsModal({
           </div>
         </div>
       ) : isEditing ? (
-        
-        /* -----------------------------------------
-           MODO EDIÇÃO (Formulário pronto para API)
-           ----------------------------------------- */
         <form onSubmit={handleSave} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -206,25 +176,20 @@ export function ApplicationDetailsModal({
             <button
               type="button"
               onClick={() => { setIsEditing(false); setFormData({ ...application }); }}
-              className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 dark:bg-zinc-800 dark:text-gray-300 dark:hover:bg-zinc-700 rounded-lg transition-colors"
+              className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 dark:bg-zinc-800 dark:text-gray-300 dark:hover:bg-zinc-700 rounded-lg transition-colors cursor-pointer"
             >
               <X className="w-4 h-4" /> Cancelar
             </button>
             <button
               type="submit"
-              className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+              className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors cursor-pointer"
             >
               <Save className="w-4 h-4" /> Salvar Alterações
             </button>
           </div>
         </form>
       ) : (
-        
-        /* -----------------------------------------
-           MODO VISUALIZAÇÃO (Todos os dados exibidos)
-           ----------------------------------------- */
         <div className="space-y-5">
-          {/* Dados Principais do Negócio */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-gray-50 dark:bg-zinc-900 p-4 rounded-xl border border-gray-100 dark:border-zinc-800/80">
             <div className="flex items-start gap-3">
               <div className="p-2 bg-white dark:bg-zinc-800 rounded-lg shadow-sm text-gray-500 border border-gray-100 dark:border-zinc-700">
@@ -261,7 +226,6 @@ export function ApplicationDetailsModal({
             </div>
           </div>
 
-          {/* Link da Vaga */}
           <div className="px-1">
             <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
               <Link2 className="w-3.5 h-3.5" /> Link da vaga
@@ -280,7 +244,6 @@ export function ApplicationDetailsModal({
             )}
           </div>
 
-          {/* Observações */}
           <div className="px-1 border-t border-gray-100 dark:border-zinc-800 pt-4">
             <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
               <FileText className="w-3.5 h-3.5" /> Observações
@@ -294,9 +257,6 @@ export function ApplicationDetailsModal({
             )}
           </div>
 
-          {/* -----------------------------------------
-             DADOS TÉCNICOS/SISTEMA (Exibindo o restante do JSON)
-             ----------------------------------------- */}
           <div className="mt-6 pt-4 border-t border-gray-100 dark:border-zinc-800 space-y-2.5 bg-gray-50/40 dark:bg-zinc-900/20 p-3 rounded-xl">
             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Metadados do Registro</span>
             
