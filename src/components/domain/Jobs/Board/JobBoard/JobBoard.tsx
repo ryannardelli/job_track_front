@@ -15,9 +15,17 @@ import { Column } from "@/components/domain/Jobs/Board/JobBoard/types/Column";
 export function JobBoard() {
   const { stateApplication, updateStatus } = useApplications();
 
-  const boardFromApi: BoardFromApi | undefined = stateApplication.board;
+  const boardFromApi: BoardFromApi | null = stateApplication.board;
 
   const [board, setBoard] = useState<Column[]>([]);
+
+  const statusMap = {
+      wishlist: "WISHLIST",
+      applied: "APPLIED",
+      interview: "INTERVIEW",
+      offer: "OFFER",
+      rejected: "REJECTED",
+    } as const;
 
   useEffect(() => {
     if (!boardFromApi) return;
@@ -106,7 +114,7 @@ export function JobBoard() {
 
       if (!movedCard) return;
 
-      const newStatus = overColumn.id.toUpperCase();
+      const newStatus = statusMap[overColumn.id as keyof typeof statusMap];
 
       setBoard((prev) =>
         prev.map((col) => {
@@ -127,12 +135,6 @@ export function JobBoard() {
           return col;
         })
       );
-
-      console.log("=== DEBUG STATUS UPDATE ===");
-      console.log("activeId:", activeId);
-      console.log("overColumn.id:", overColumn.id);
-      console.log("newStatus:", newStatus);
-      console.log("===========================");
 
       try {
         await updateStatus(activeId, {
