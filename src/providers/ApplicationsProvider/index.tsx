@@ -6,10 +6,6 @@ import {
 } from "react";
 
 import { ApplicationContext } from "./ApplicationContext";
-import {
-  applicationReducer,
-  initialStateApplication,
-} from "../../reducer/applicationReducer";
 
 import {
   createApplication,
@@ -25,6 +21,7 @@ import { useAuth } from "@hooks/useAuth";
 import { CreateApplicationDTO } from "@/models/Applications/CreateApplicationDTO";
 import { UpdateApplicationDTO } from "@/models/Applications/UpdateApplicationDTO";
 import { UpdateApplicationStatusDTO } from "@/models/Applications/UpdateApplicationStatusDTO ";
+import { applicationReducer, initialStateApplication } from "@/reducers/applicationsReducer";
 
 type ApplicationProviderProps = {
   children: ReactNode;

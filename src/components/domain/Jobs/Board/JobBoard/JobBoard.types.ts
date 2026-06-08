@@ -1,10 +1,11 @@
 export interface Job {
-  id: string;
-  role: string;
+  uuid: string;
   company: string;
-  info: string;
-  badge: string;
-  badgeBg: string;
+  position: string;
+  vacancyUrl: string | null;
+  status: "WISHLIST" | "APPLIED" | "INTERVIEW" | "OFFER" | "REJECTED";
+  applicationDate: string | null;
+  notes: string | null;
 }
 
 export interface JobCardProps {

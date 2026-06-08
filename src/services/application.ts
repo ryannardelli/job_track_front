@@ -2,7 +2,7 @@ import { ApiError } from "@/models/ApiError";
 import { Application } from "@/models/Applications/Application";
 import { ApplicationBoard } from "@/models/Applications/ApplicationBoard";
 
-const API_URL = "/api/auth";
+const API_URL = "/api/application";
 
 export async function createApplication(
   token: string,
