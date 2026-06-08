@@ -19,11 +19,17 @@ export function JobCard({ job, isWishlist, onClick }: JobCardProps) {
     <div
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
       onClick={onClick}
       className="bg-white p-4 rounded-xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all cursor-pointer relative group"
     >
+       <button
+          {...attributes}
+          {...listeners}
+          onClick={(e) => e.stopPropagation()}
+          className="absolute top-2 right-2 cursor-grab active:cursor-grabbing"
+        >
+          ⋮⋮
+        </button>
       <h4 className="font-bold text-[13px] text-slate-800 leading-snug pr-6">
         {job.position}
       </h4>
@@ -53,7 +59,7 @@ export function JobCard({ job, isWishlist, onClick }: JobCardProps) {
       )}
 
       {isWishlist && (
-        <span className="absolute top-4 right-4 text-blue-500 text-xs">
+        <span className="absolute top-3 right-6 text-blue-500 text-xs">
           🔖
         </span>
       )}

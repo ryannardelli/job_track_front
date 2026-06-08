@@ -11,13 +11,31 @@ import { KanbanColumn } from "@/components/domain/Jobs/Board/KanbanColumn";
 import { useApplications } from "@/hooks/useApplications";
 import { BoardFromApi } from "@/components/domain/Jobs/Board/JobBoard/types/BoardFromApi";
 import { Column } from "@/components/domain/Jobs/Board/JobBoard/types/Column";
+import { ApplicationDetailsModal } from "@/components/domain/Jobs/Board/ApplicationDetailsModal";
 
 export function JobBoard() {
   const { stateApplication, updateStatus } = useApplications();
+  console.log(stateApplication.board);
 
   const boardFromApi: BoardFromApi | null = stateApplication.board;
 
   const [board, setBoard] = useState<Column[]>([]);
+
+    const [selectedApplication, setSelectedApplication] = useState<any | null>(
+    null
+  );
+
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+
+  const handleOpenDetails = (application: any) => {
+      setSelectedApplication(application);
+      setIsDetailsOpen(true);
+    };
+
+    const handleCloseDetails = () => {
+      setIsDetailsOpen(false);
+      setSelectedApplication(null);
+    };
 
   const statusMap = {
       wishlist: "WISHLIST",
@@ -149,12 +167,26 @@ export function JobBoard() {
   if (!board.length) return null;
 
   return (
+    <>
     <DndContext collisionDetection={pointerWithin} onDragEnd={handleDragEnd}>
       <div className="flex gap-4 overflow-x-auto pb-4">
         {board.map((column) => (
-          <KanbanColumn key={column.id} column={column} />
+          <KanbanColumn key={column.id} column={column} onCardClick={handleOpenDetails} />
         ))}
       </div>
     </DndContext>
+
+      <ApplicationDetailsModal
+          isOpen={isDetailsOpen}
+          application={selectedApplication}
+          onClose={handleCloseDetails}
+          onEdit={() => {
+            console.log("editar");
+          }}
+          onDelete={() => {
+            console.log("deletar");
+          }}
+      />
+</>
   );
 }

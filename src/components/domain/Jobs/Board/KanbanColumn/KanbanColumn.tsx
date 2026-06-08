@@ -8,7 +8,7 @@ import { JobCard } from "@/components/domain/Jobs/JobCard";
 import { KanbanColumnProps } from "@/components/domain/Jobs/Board/KanbanColumn/KanbanColumn.types";
 import { CreateJobButton } from "@/components/domain/Button/CreateJobButton/CreateJobButton";
 
-export function KanbanColumn({ column }: KanbanColumnProps) {
+export function KanbanColumn({ column, onCardClick }: KanbanColumnProps) {
   const { setNodeRef, isOver } = useDroppable({
     id: column.id,
   });
@@ -44,6 +44,7 @@ export function KanbanColumn({ column }: KanbanColumnProps) {
               key={job.id}
               job={job}
               isWishlist={column.title === "Wishlist"}
+              onClick={() => onCardClick(job)}
             />
           ))}
         </div>
