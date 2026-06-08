@@ -17,12 +17,14 @@ export function CreateJobButton() {
   const onFormSubmit = async (data: {
     company: string;
     position: string;
-    link?: string;
+    vacancyUrl?: string;
+    status: string;
+    applicationDate: string;
+    notes?: string;
   }) => {
     try {
       setLoading(true);
 
-      // 👇 apenas simulação (MVP UI)
       console.log("Nova vaga criada:", data);
 
       alert("Vaga criada com sucesso!");
@@ -40,11 +42,11 @@ export function CreateJobButton() {
   return (
     <>
       <ButtonNewJob
-          variant="dashed"
-          icon={<span className="text-base font-bold">+</span>}
-          onClick={() => setIsOpen(true)}
-        >
-          Nova Vaga
+        variant="dashed"
+        icon={<span className="text-base font-bold">+</span>}
+        onClick={() => setIsOpen(true)}
+      >
+        Nova Vaga
       </ButtonNewJob>
 
       <ModalCreateBase
@@ -64,7 +66,10 @@ export function CreateJobButton() {
             const data = {
               company: String(formData.get("company")),
               position: String(formData.get("position")),
-              link: String(formData.get("link") || ""),
+              vacancyUrl: String(formData.get("vacancyUrl") || ""),
+              status: String(formData.get("status")),
+              applicationDate: String(formData.get("applicationDate")),
+              notes: String(formData.get("notes") || ""),
             };
 
             onFormSubmit(data);
@@ -77,6 +82,7 @@ export function CreateJobButton() {
             </label>
             <input
               name="company"
+              required
               placeholder="Ex: Google"
               className="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -88,7 +94,8 @@ export function CreateJobButton() {
             </label>
             <input
               name="position"
-              placeholder="Ex: Front-end Developer"
+              required
+              placeholder="Ex: Desenvolvedor Full Stack"
               className="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -98,9 +105,54 @@ export function CreateJobButton() {
               Link da vaga (opcional)
             </label>
             <input
-              name="link"
-              placeholder="https://..."
+              type="url"
+              name="vacancyUrl"
+              placeholder="https://careers.empresa.com/vaga"
               className="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex flex-col gap-1">
+              <label className="text-sm text-slate-600 dark:text-slate-300">
+                Status
+              </label>
+              <select
+                name="status"
+                defaultValue="WISHLIST"
+                className="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="WISHLIST">Wishlist</option>
+                <option value="APPLIED">Aplicada</option>
+                <option value="INTERVIEW">Entrevista</option>
+                <option value="OFFER">Proposta</option>
+                <option value="REJECTED">Rejeitada</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-sm text-slate-600 dark:text-slate-300">
+                Data da candidatura
+              </label>
+              <input
+                type="date"
+                name="applicationDate"
+                required
+                defaultValue={new Date().toISOString().split("T")[0]}
+                className="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label className="text-sm text-slate-600 dark:text-slate-300">
+              Observações (opcional)
+            </label>
+            <textarea
+              name="notes"
+              rows={4}
+              placeholder="Ex: Vaga encontrada pelo LinkedIn. Requisitos compatíveis com meu perfil..."
+              className="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent outline-none focus:ring-2 focus:ring-blue-500 resize-none"
             />
           </div>
         </form>
