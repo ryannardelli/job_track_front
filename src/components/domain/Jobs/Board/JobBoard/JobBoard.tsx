@@ -9,40 +9,16 @@ import {
 import { arrayMove } from "@dnd-kit/sortable";
 import { KanbanColumn } from "@/components/domain/Jobs/Board/KanbanColumn";
 import { useApplications } from "@/hooks/useApplications";
-
-type ApplicationCard = {
-  uuid: string;
-  company: string;
-  position: string;
-  vacancyUrl: string | null;
-  status: "WISHLIST" | "APPLIED" | "INTERVIEW" | "OFFER" | "REJECTED";
-  applicationDate: string | null;
-  notes: string | null;
-};
-
-type BoardFromApi = {
-  WISHLIST?: ApplicationCard[];
-  APPLIED?: ApplicationCard[];
-  INTERVIEW?: ApplicationCard[];
-  OFFER?: ApplicationCard[];
-  REJECTED?: ApplicationCard[];
-};
-
-type Column = {
-  id: string;
-  title: string;
-  color: string;
-  cards: ApplicationCard[];
-};
+import { BoardFromApi } from "@/components/domain/Jobs/Board/JobBoard/types/BoardFromApi";
+import { Column } from "@/components/domain/Jobs/Board/JobBoard/types/Column";
 
 export function JobBoard() {
-  const { stateApplication, updateApplicationStatus } = useApplications();
+  const { stateApplication, updateStatus } = useApplications();
 
   const boardFromApi: BoardFromApi | undefined = stateApplication.board;
 
   const [board, setBoard] = useState<Column[]>([]);
 
-  // 🔥 monta board a partir da API
   useEffect(() => {
     if (!boardFromApi) return;
 
@@ -60,13 +36,13 @@ export function JobBoard() {
         cards: boardFromApi.APPLIED || [],
       },
       {
-        id: "interviews",
+        id: "interview",
         title: "Entrevistas",
         color: "bg-purple-600",
         cards: boardFromApi.INTERVIEW || [],
       },
       {
-        id: "offers",
+        id: "offer",
         title: "Propostas",
         color: "bg-green-600",
         cards: boardFromApi.OFFER || [],
@@ -152,8 +128,16 @@ export function JobBoard() {
         })
       );
 
+      console.log("=== DEBUG STATUS UPDATE ===");
+      console.log("activeId:", activeId);
+      console.log("overColumn.id:", overColumn.id);
+      console.log("newStatus:", newStatus);
+      console.log("===========================");
+
       try {
-        await updateApplicationStatus(activeId, newStatus);
+        await updateStatus(activeId, {
+          status: newStatus,
+        });
       } catch (err) {
         console.error("Erro ao atualizar status:", err);
       }

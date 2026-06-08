@@ -146,14 +146,16 @@ export async function updateApplicationStatus(
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ status }),
+    body: JSON.stringify({
+      status,
+    }),
   });
 
-  const response: ApiError & Application = await res.json().catch(() => ({}));
+  const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    throw new Error(response.message || "Erro ao atualizar status");
+    throw new Error(data.message || "Erro ao atualizar status");
   }
 
-  return response;
+  return data;
 }

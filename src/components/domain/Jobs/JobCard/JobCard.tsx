@@ -1,18 +1,8 @@
 import { JobCardProps } from "@/components/domain/Jobs/Board/JobBoard/JobBoard.types";
+import { formatDate } from "@/utils/formatDate";
+import { getCompanyBadge } from "@/utils/getCompanyBadge";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
-function formatDate(date?: string | null) {
-  if (!date) return "Sem data";
-  return new Date(date).toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "short",
-  });
-}
-
-function getCompanyBadge(company: string) {
-  return company?.slice(0, 2).toUpperCase();
-}
 
 export function JobCard({ job, isWishlist, onClick }: JobCardProps) {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -68,7 +58,6 @@ export function JobCard({ job, isWishlist, onClick }: JobCardProps) {
         </span>
       )}
 
-      {/* link opcional */}
       {job.vacancyUrl && (
         <a
           href={job.vacancyUrl}
