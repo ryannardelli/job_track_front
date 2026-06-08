@@ -1,33 +1,39 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { ModalCreateBase } from "@components/ui/Modal/ModalCreateBase";
 import { ButtonNewJob } from "@/components/ui/Button/ButtonNewJob";
+import { ApplicationFormData, ApplicationSchema } from "@/schemas/Applications/ApplicationsSchema";
 
 export function CreateJobButton() {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const formRef = useRef<HTMLFormElement>(null);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ApplicationFormData>({
+    resolver: zodResolver(ApplicationSchema),
+    defaultValues: {
+      status: "WISHLIST",
+      applicationDate: new Date().toISOString().split("T")[0],
+      vacancyUrl: "",
+      notes: "",
+    },
+  });
 
-  const handleSaveTrigger = () => {
-    if (!loading) {
-      formRef.current?.requestSubmit();
-    }
-  };
-
-  const onFormSubmit = async (data: {
-    company: string;
-    position: string;
-    vacancyUrl?: string;
-    status: string;
-    applicationDate: string;
-    notes?: string;
-  }) => {
+  const onFormSubmit = async (data: ApplicationFormData) => {
     try {
       setLoading(true);
 
       console.log("Nova vaga criada:", data);
 
       alert("Vaga criada com sucesso!");
+
+      reset();
       setIsOpen(false);
     } catch (err) {
       const errorMessage =
@@ -53,63 +59,66 @@ export function CreateJobButton() {
         title="Adicionar nova vaga"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        onCreate={handleSaveTrigger}
+        onCreate={handleSubmit(onFormSubmit)}
         isLoading={loading}
       >
         <form
-          ref={formRef}
-          onSubmit={(e) => {
-            e.preventDefault();
-
-            const formData = new FormData(e.currentTarget);
-
-            const data = {
-              company: String(formData.get("company")),
-              position: String(formData.get("position")),
-              vacancyUrl: String(formData.get("vacancyUrl") || ""),
-              status: String(formData.get("status")),
-              applicationDate: String(formData.get("applicationDate")),
-              notes: String(formData.get("notes") || ""),
-            };
-
-            onFormSubmit(data);
-          }}
+          onSubmit={handleSubmit(onFormSubmit)}
           className="flex flex-col gap-4"
         >
           <div className="flex flex-col gap-1">
             <label className="text-sm text-slate-600 dark:text-slate-300">
               Empresa
             </label>
+
             <input
-              name="company"
-              required
+              {...register("company")}
               placeholder="Ex: Google"
               className="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent outline-none focus:ring-2 focus:ring-blue-500"
             />
+
+            {errors.company && (
+              <span className="text-sm text-red-500">
+                {errors.company.message}
+              </span>
+            )}
           </div>
 
           <div className="flex flex-col gap-1">
             <label className="text-sm text-slate-600 dark:text-slate-300">
               Cargo
             </label>
+
             <input
-              name="position"
-              required
+              {...register("position")}
               placeholder="Ex: Desenvolvedor Full Stack"
               className="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent outline-none focus:ring-2 focus:ring-blue-500"
             />
+
+            {errors.position && (
+              <span className="text-sm text-red-500">
+                {errors.position.message}
+              </span>
+            )}
           </div>
 
           <div className="flex flex-col gap-1">
             <label className="text-sm text-slate-600 dark:text-slate-300">
               Link da vaga (opcional)
             </label>
+
             <input
               type="url"
-              name="vacancyUrl"
+              {...register("vacancyUrl")}
               placeholder="https://careers.empresa.com/vaga"
               className="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent outline-none focus:ring-2 focus:ring-blue-500"
             />
+
+            {errors.vacancyUrl && (
+              <span className="text-sm text-red-500">
+                {errors.vacancyUrl.message}
+              </span>
+            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -117,9 +126,9 @@ export function CreateJobButton() {
               <label className="text-sm text-slate-600 dark:text-slate-300">
                 Status
               </label>
+
               <select
-                name="status"
-                defaultValue="WISHLIST"
+                {...register("status")}
                 className="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="WISHLIST">Wishlist</option>
@@ -128,19 +137,30 @@ export function CreateJobButton() {
                 <option value="OFFER">Proposta</option>
                 <option value="REJECTED">Rejeitada</option>
               </select>
+
+              {errors.status && (
+                <span className="text-sm text-red-500">
+                  {errors.status.message}
+                </span>
+              )}
             </div>
 
             <div className="flex flex-col gap-1">
               <label className="text-sm text-slate-600 dark:text-slate-300">
                 Data da candidatura
               </label>
+
               <input
                 type="date"
-                name="applicationDate"
-                required
-                defaultValue={new Date().toISOString().split("T")[0]}
+                {...register("applicationDate")}
                 className="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent outline-none focus:ring-2 focus:ring-blue-500"
               />
+
+              {errors.applicationDate && (
+                <span className="text-sm text-red-500">
+                  {errors.applicationDate.message}
+                </span>
+              )}
             </div>
           </div>
 
@@ -148,12 +168,19 @@ export function CreateJobButton() {
             <label className="text-sm text-slate-600 dark:text-slate-300">
               Observações (opcional)
             </label>
+
             <textarea
-              name="notes"
+              {...register("notes")}
               rows={4}
-              placeholder="Ex: Vaga encontrada pelo LinkedIn. Requisitos compatíveis com meu perfil..."
+              placeholder="Ex: Vaga encontrada pelo LinkedIn..."
               className="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent outline-none focus:ring-2 focus:ring-blue-500 resize-none"
             />
+
+            {errors.notes && (
+              <span className="text-sm text-red-500">
+                {errors.notes.message}
+              </span>
+            )}
           </div>
         </form>
       </ModalCreateBase>
