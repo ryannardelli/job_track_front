@@ -1,4 +1,5 @@
 import { SpinnerLoading } from "@/components/ui/Loading/SpinnerLoading";
+import { useAuth } from "@/hooks/useAuth";
 import { Navigate } from "react-router";
 
 type PrivateRouteProps = {
@@ -6,8 +7,9 @@ type PrivateRouteProps = {
 };
 
 export function PrivateRoute({ children }: PrivateRouteProps) {
-  const isAuthenticated = false;
-  const loading = false;
+  const { state } = useAuth();
+  const isAuthenticated = state.isAuthenticated;
+  const loading = state.loading;
 
   if (loading) {
     return (

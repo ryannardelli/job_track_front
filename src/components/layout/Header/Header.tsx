@@ -1,10 +1,11 @@
 import { ButtonNewJob } from "@/components/ui/Button/ButtonNewJob";
+import { useAuth } from "@/hooks/useAuth";
 import { Plus } from "lucide-react";
 
 export function Header() {
+    const { logout } = useAuth();
     const handleLogout = () => {
-            alert('Desconectando do JobTrack...');
-            // Lógica de logout aqui
+        logout();
     };
 
     return(
@@ -46,7 +47,7 @@ export function Header() {
               <p className="text-xs font-semibold text-slate-800 leading-tight">João Silva</p>
               <button 
                 onClick={handleLogout}
-                className="text-[11px] text-red-500 hover:text-red-700 hover:underline font-medium block text-left transition-colors"
+                className="text-[11px] cursor-pointer text-red-500 hover:text-red-700 hover:underline font-medium block text-left transition-colors"
               >
                 Sair do sistema
               </button>
