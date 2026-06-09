@@ -122,6 +122,8 @@ export const ApplicationProvider = ({
         payload: response,
       });
 
+      await loadApplicationBoard();
+
       return response;
     } catch (error) {
       dispatchApplication({
