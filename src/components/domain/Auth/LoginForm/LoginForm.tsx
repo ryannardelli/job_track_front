@@ -1,24 +1,36 @@
-import React, { useState } from 'react';
-import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import React, { useState } from "react";
+import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 
-import { RouterLink } from '@/components/ui/Navigation/RouterLink';
-import { useAuth } from '@/hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { RouterLink } from "@/components/ui/Navigation/RouterLink";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginFormData, LoginSchema } from "@/schemas/Auth/Login.Schema";
 
 export function LoginForm() {
   const { login, state } = useAuth();
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
+  const onSubmit = async (data: LoginFormData) => {
     try {
-      await login(email, password);
-       navigate("/");
+      await login(data.email, data.password);
+      navigate("/");
     } catch (err) {
       console.error(err);
     }
@@ -27,23 +39,30 @@ export function LoginForm() {
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 antialiased">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl shadow-slate-100 border border-slate-100 p-8 transition-all">
-
         <div className="flex flex-col items-center text-center mb-8">
           <img
             src="/img/logo.png"
             alt="JobTrack Logo"
             className="h-40 w-40 object-contain"
           />
+
           <p className="text-sm text-slate-500">
             Gerencie suas candidaturas e conquiste sua próxima vaga.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-5"
+        >
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1.5">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-slate-700 mb-1.5"
+            >
               E-mail
             </label>
+
             <div className="relative rounded-lg shadow-sm">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Mail className="h-5 w-5 text-slate-400" />
@@ -52,18 +71,23 @@ export function LoginForm() {
               <input
                 type="email"
                 id="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register("email")}
                 className="block w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm"
                 placeholder="seu@email.com"
               />
             </div>
+
+            <p className="text-sm text-red-500 mt-2">
+              {errors.email?.message}
+            </p>
           </div>
 
           <div>
             <div className="flex justify-between items-center mb-1.5">
-              <label htmlFor="password" className="block text-sm font-medium text-slate-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-slate-700"
+              >
                 Senha
               </label>
 
@@ -81,11 +105,9 @@ export function LoginForm() {
               </div>
 
               <input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 id="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                {...register("password")}
                 className="block w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm"
                 placeholder="••••••••"
               />
@@ -95,9 +117,17 @@ export function LoginForm() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
               >
-                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                {showPassword ? (
+                  <EyeOff className="h-5 w-5" />
+                ) : (
+                  <Eye className="h-5 w-5" />
+                )}
               </button>
             </div>
+
+            <p className="text-sm text-red-500 mt-2">
+              {errors.password?.message}
+            </p>
           </div>
 
           <button
@@ -114,12 +144,11 @@ export function LoginForm() {
               </>
             )}
           </button>
-
         </form>
 
         <div className="mt-8 pt-6 border-t border-slate-100 text-center">
           <p className="text-sm text-slate-600">
-            Não tem uma conta?{' '}
+            Não tem uma conta?{" "}
             <RouterLink
               href="/register"
               className="font-semibold text-indigo-600 hover:text-indigo-500 transition-colors"
@@ -128,7 +157,6 @@ export function LoginForm() {
             </RouterLink>
           </p>
         </div>
-
       </div>
     </div>
   );
