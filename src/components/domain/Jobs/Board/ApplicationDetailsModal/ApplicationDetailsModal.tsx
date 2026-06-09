@@ -8,22 +8,21 @@ import {
 import { Application } from "@/models/Applications/Application";
 import { getStatusBadgeConfig } from "@/utils/getStatusBadgeConfig";
 import { useApplications } from "@/hooks/useApplications";
+import { showMessage } from "@/adapters/showMessage";
 
 interface ApplicationDetailsModalProps {
   isOpen: boolean;
   application: Application | null;
   onClose: () => void;
   onEdit: (updatedData: Application) => void;
-  onDelete: (uuid: string) => void;
 }
 
 export function ApplicationDetailsModal({
   isOpen,
   application,
   onClose,
-  onEdit,
 }: ApplicationDetailsModalProps) {
-  const { remove } = useApplications();
+  const { remove, update } = useApplications();
 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<Application>({ ...application });
@@ -42,12 +41,20 @@ export function ApplicationDetailsModal({
     setFormData((prev) => ({ ...prev, [name]: value === "" ? null : value }));
   };
 
-  const handleSave = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Aqui dispara a função que vem do componente pai para atualizar na API
-    onEdit(formData);
-    setIsEditing(false);
-  };
+  const handleSave = async (e: React.FormEvent) => {
+      e.preventDefault();
+
+      try {
+        const response = await update(application.uuid, formData);
+
+        showMessage.success(response.message);
+
+        setIsEditing(false);
+        handleClose();
+      } catch (error) {
+        console.error("Erro ao atualizar candidatura", error);
+      }
+    };
 
   const handleConfirmDelete = () => {
     remove(application.uuid);
@@ -100,7 +107,7 @@ export function ApplicationDetailsModal({
         </div>
       ) : isEditing ? (
         <form onSubmit={handleSave} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
             <div>
               <label className="text-xs font-semibold text-gray-500 uppercase block mb-1">Cargo</label>
               <input
@@ -123,20 +130,7 @@ export function ApplicationDetailsModal({
                 className="w-full text-sm px-3 py-2 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase block mb-1">Status</label>
-              <select
-                name="status"
-                value={formData.status}
-                onChange={handleInputChange}
-                className="w-full text-sm px-3 py-2 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="APPLIED">APPLIED</option>
-                <option value="INTERVIEW">INTERVIEW</option>
-                <option value="OFFER">OFFER</option>
-                <option value="REJECTED">REJECTED</option>
-              </select>
-            </div>
+
             <div>
               <label className="text-xs font-semibold text-gray-500 uppercase block mb-1">Data da Candidatura</label>
               <input

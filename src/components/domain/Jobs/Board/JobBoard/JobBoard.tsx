@@ -180,12 +180,6 @@ export function JobBoard() {
           isOpen={isDetailsOpen}
           application={selectedApplication}
           onClose={handleCloseDetails}
-          onEdit={() => {
-            console.log("editar");
-          }}
-          onDelete={() => {
-            console.log("deletar");
-          }}
       />
 </>
   );
