@@ -8,6 +8,7 @@ export function Header({ onOpenModal }) {
     const user = state.user;
 
     const name = user?.name;
+    const email = user?.email;
 
     const handleLogout = () => {
         logout();
@@ -21,13 +22,6 @@ export function Header({ onOpenModal }) {
         </div>
         
         <div className="flex flex-wrap items-center gap-4">
-          {/* <ButtonNewJob
-            variant="primary"
-            icon={<Plus size={14} />}
-          >
-            Nova candidatura
-          </ButtonNewJob> */}
-
           <ButtonNewJob
             variant="primary"
             icon={<Plus size={14} />}
@@ -44,6 +38,9 @@ export function Header({ onOpenModal }) {
             </div>
             <div className="hidden sm:block text-left">
               <p className="text-xs font-semibold text-slate-800 leading-tight">{name}</p>
+              <p className="text-[11px] text-slate-500 leading-tight mt-0.5">
+                {email}
+              </p>
               <button 
                 onClick={handleLogout}
                 className="text-[11px] cursor-pointer text-red-500 hover:text-red-700 hover:underline font-medium block text-left transition-colors"
