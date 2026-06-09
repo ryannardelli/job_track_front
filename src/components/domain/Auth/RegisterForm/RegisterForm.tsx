@@ -13,9 +13,11 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 export function RegisterForm() {
   const { registerUser } = useAuth();
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -43,17 +45,19 @@ export function RegisterForm() {
         email: data.email,
         password: data.password,
       });
-
-      showMessage.success("Conta criada com sucesso!");
+      
+      navigate("/");
 
       reset();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
 
-      showMessage.error(
-        err?.response?.data?.message ||
-          "Erro ao criar conta."
-      );
+      const message =
+        err instanceof Error
+          ? err.message
+          : "Erro ao criar conta.";
+
+      showMessage.error(message);
     }
   };
 
@@ -129,7 +133,6 @@ export function RegisterForm() {
               </p>
             </div>
 
-            {/* Senha */}
             <div>
               <label
                 htmlFor="password"

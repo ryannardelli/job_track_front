@@ -106,11 +106,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const registerUser = async (
-    name: string,
-    email: string,
-    password: string
-  ) => {
+ const registerUser = async ({
+      name,
+      email,
+      password,
+    }: {
+      name: string;
+      email: string;
+      password: string;
+    }) => {
     try {
       dispatch({ type: "SET_LOADING", payload: true });
 
