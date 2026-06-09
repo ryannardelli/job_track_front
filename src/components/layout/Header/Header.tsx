@@ -21,19 +21,6 @@ export function Header() {
         </div>
         
         <div className="flex flex-wrap items-center gap-4">
-          <div className="relative w-64">
-            <span className="absolute left-3 top-2.5 text-slate-400 text-sm">🔍</span>
-            <input 
-              type="text" 
-              placeholder="Buscar vaga ou empresa..." 
-              className="w-full pl-9 pr-4 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-            />
-          </div>
-          
-          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 font-medium transition-colors">
-            <span>⏳</span> Filtros
-          </button>
-
           <ButtonNewJob
             variant="primary"
             icon={<Plus size={14} />}
