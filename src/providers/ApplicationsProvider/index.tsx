@@ -144,9 +144,10 @@ export const ApplicationProvider = ({
   try {
     dispatchApplication({ type: "SET_LOADING", payload: true });
 
-    await deleteApplication(state.token as string, uuid);
+    const response = await deleteApplication(state.token as string, uuid);
 
     await loadApplicationBoard();
+     return response;
   } catch (error) {
     dispatchApplication({
       type: "SET_ERROR",

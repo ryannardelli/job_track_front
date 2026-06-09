@@ -56,9 +56,15 @@ export function ApplicationDetailsModal({
       }
     };
 
-  const handleConfirmDelete = () => {
-    remove(application.uuid);
-    handleClose();
+  const handleConfirmDelete = async () => {
+    try {
+      const response = await remove(application.uuid);
+      showMessage.success(response.message);
+      setIsEditing(false);
+      handleClose();
+    } catch(e) {
+      console.error("Erro ao Excluir candidatura", e);
+    }
   };
 
   return (
