@@ -64,7 +64,7 @@ export function CreateJobButton() {
         icon={<span className="text-base font-bold">+</span>}
         onClick={() => setIsOpen(true)}
       >
-        Nova Vaga
+        Nova candidatura
       </ButtonNewJob>
 
       <ModalCreateBase

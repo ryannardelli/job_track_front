@@ -3,7 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { getInitials } from "@/utils/getInitials";
 import { Plus } from "lucide-react";
 
-export function Header() {
+export function Header({ onOpenModal }) {
     const { state, logout } = useAuth();
     const user = state.user;
 
@@ -21,12 +21,19 @@ export function Header() {
         </div>
         
         <div className="flex flex-wrap items-center gap-4">
+          {/* <ButtonNewJob
+            variant="primary"
+            icon={<Plus size={14} />}
+          >
+            Nova candidatura
+          </ButtonNewJob> */}
+
           <ButtonNewJob
             variant="primary"
             icon={<Plus size={14} />}
-            onClick={() => setIsOpen(true)}
+            onClick={onOpenModal}
           >
-            Nova vaga
+            Nova candidatura
           </ButtonNewJob>
 
           <div className="h-6 w-[1px] bg-slate-300 hidden sm:block" />
@@ -47,6 +54,6 @@ export function Header() {
           </div>
 
         </div>
-      </header>
+        </header>
     );
 }
