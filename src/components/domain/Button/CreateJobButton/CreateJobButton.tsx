@@ -52,7 +52,7 @@ export function CreateJobButton() {
         ? err.message
         : "Erro ao criar candidatura.";
 
-    alert(errorMessage);
+    showMessage.error(errorMessage);
   } finally {
     setLoading(false);
   }
