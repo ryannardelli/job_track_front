@@ -6,6 +6,7 @@ import { ModalCreateBase } from "@components/ui/Modal/ModalCreateBase";
 import { ButtonNewJob } from "@/components/ui/Button/ButtonNewJob";
 import { ApplicationFormData, ApplicationSchema } from "@/schemas/Applications/ApplicationsSchema";
 import { useApplications } from "@/hooks/useApplications";
+import { showMessage } from "@/adapters/showMessage";
 
 export function CreateJobButton() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +32,7 @@ export function CreateJobButton() {
   try {
     setLoading(true);
 
-    await create({
+    const response = await create({
       company: data.company,
       position: data.position,
       vacancyUrl: data.vacancyUrl || undefined,
@@ -44,7 +45,7 @@ export function CreateJobButton() {
 
     setIsOpen(false);
 
-    alert("Vaga criada com sucesso!");
+    showMessage.success(response.message);
   } catch (err) {
     const errorMessage =
       err instanceof Error
