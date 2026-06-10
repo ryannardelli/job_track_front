@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginFormData, LoginSchema } from "@/schemas/Auth/Login.Schema";
+import { showMessage } from "@/adapters/showMessage";
 
 export function LoginForm() {
   const { login, state } = useAuth();
@@ -33,6 +34,12 @@ export function LoginForm() {
       navigate("/");
     } catch (err) {
       console.error(err);
+       const message =
+              err instanceof Error
+                ? err.message
+                : "Erro ao fazer login.";
+      
+      showMessage.error(message);
     }
   };
 
