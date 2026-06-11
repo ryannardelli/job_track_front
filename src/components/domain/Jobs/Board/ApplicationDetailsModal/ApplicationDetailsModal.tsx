@@ -9,6 +9,7 @@ import { Application } from "@/models/Applications/Application";
 import { getStatusBadgeConfig } from "@/utils/getStatusBadgeConfig";
 import { useApplications } from "@/hooks/useApplications";
 import { showMessage } from "@/adapters/showMessage";
+import { translateStatus } from "@/utils/translateStatus";
 
 interface ApplicationDetailsModalProps {
   isOpen: boolean;
@@ -105,7 +106,7 @@ export function ApplicationDetailsModal({
             </button>
             <button
               onClick={handleConfirmDelete}
-              className="px-3 py-1.5 text-xs font-medium text-white bg-rose-600 rounded-lg hover:bg-rose-700 dark:bg-rose-700 dark:hover:bg-rose-600"
+              className="px-3 py-1.5 text-xs font-medium text-white bg-rose-600 rounded-lg cursor-pointer hover:bg-rose-700 dark:bg-rose-700 dark:hover:bg-rose-600"
             >
               Confirmar Exclusão
             </button>
@@ -208,7 +209,7 @@ export function ApplicationDetailsModal({
               <div>
                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Status</span>
                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border mt-0.5 ${getStatusBadgeConfig(application.status)}`}>
-                  {application.status}
+                  {translateStatus(application.status)}
                 </span>
               </div>
             </div>
