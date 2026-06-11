@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ModalShowBase } from "@/components/ui/Modal/ModalShowBase";
 import { formatDate } from "@/utils/formatDate";
 import { 
@@ -26,7 +26,15 @@ export function ApplicationDetailsModal({
   const { remove, update } = useApplications();
 
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState<Application>({ ...application });
+  const [formData, setFormData] = useState<Application>(
+    application as Application
+  );
+
+  useEffect(() => {
+    if (application) {
+      setFormData({ ...application });
+    }
+  }, [application, isOpen]);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   if (!application) return null;
