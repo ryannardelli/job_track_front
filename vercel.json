@@ -1,5 +1,10 @@
 {
   "rewrites": [
+     {
+      "source": "/api/:path*",
+      "destination": "https://job-track-back.onrender.com/:path*"
+    },
+
     {
       "source": "/(.*)",
       "destination": "/"
