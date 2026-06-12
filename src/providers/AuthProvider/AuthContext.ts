@@ -12,11 +12,11 @@ type ContextType = {
 
   login: (email: string, password: string) => Promise<AuthUser>;
 
-  registerUser: (
-    name: string,
-    email: string,
-    password: string
-  ) => Promise<RegisterResponse>;
+  registerUser: (data: {
+    name: string;
+    email: string;
+    password: string;
+  }) => Promise<RegisterResponse>;
 
   logout: () => void;
 };

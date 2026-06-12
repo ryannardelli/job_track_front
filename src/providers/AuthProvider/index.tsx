@@ -67,7 +67,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       const { token, user: initialUser } = response;
 
-      // Persistir token
       localStorage.setItem("token", token);
 
       let finalUser: User = initialUser;
