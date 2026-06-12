@@ -21,7 +21,7 @@ type ApplicationContextType = {
     data: UpdateApplicationDTO
   ) => Promise<Application & { message: string }>;
 
-  remove: (uuid: string) => Promise<void & { message: string }>;
+  remove: (uuid: string) => Promise<{ message: string }>;
 
   updateStatus: (
     uuid: string,

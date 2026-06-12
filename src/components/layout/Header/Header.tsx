@@ -3,7 +3,11 @@ import { useAuth } from "@/hooks/useAuth";
 import { getInitials } from "@/utils/getInitials";
 import { Plus } from "lucide-react";
 
-export function Header({ onOpenModal }) {
+type HeaderProps = {
+  onOpenModal: () => void;
+};
+
+export function Header({ onOpenModal }: HeaderProps) {
     const { state, logout } = useAuth();
     const user = state.user;
 

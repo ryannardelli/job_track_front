@@ -1,13 +1,14 @@
 import { ApiError } from "@/models/ApiError";
 import { Application } from "@/models/Applications/Application";
 import { ApplicationBoard } from "@/models/Applications/ApplicationBoard";
+import { ApplicationResponse } from "@/models/Applications/ApplicationResponse";
 
 const API_URL = "/api/application";
 
 export async function createApplication(
   token: string,
   data: Partial<Application>
-): Promise<Application> {
+): Promise<ApplicationResponse<Application>> {
   const res = await fetch(`${API_URL}`, {
     method: "POST",
     headers: {
@@ -17,7 +18,7 @@ export async function createApplication(
     body: JSON.stringify(data),
   });
 
-  const response: ApiError & Application = await res.json().catch(() => ({}));
+  const response = await res.json().catch(() => ({}));
 
   if (!res.ok) {
     throw new Error(response.message || "Erro ao criar candidatura");
@@ -95,7 +96,7 @@ export async function updateApplication(
   token: string,
   uuid: string,
   data: Partial<Application>
-): Promise<Application> {
+): Promise<ApplicationResponse<Application>> {
   const res = await fetch(`${API_URL}/${uuid}`, {
     method: "PATCH",
     headers: {
@@ -105,7 +106,7 @@ export async function updateApplication(
     body: JSON.stringify(data),
   });
 
-  const response: ApiError & Application = await res.json().catch(() => ({}));
+  const response = await res.json().catch(() => ({}));
 
   if (!res.ok) {
     throw new Error(response.message || "Erro ao atualizar candidatura");

@@ -35,7 +35,7 @@ export function CreateJobModal({
     },
   });
 
-  const onFormSubmit = (data: CreateJobFormData) => {
+  const onFormSubmit = (data: ApplicationFormData) => {
     onCreate(data);
 
     reset();
