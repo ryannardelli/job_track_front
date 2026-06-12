@@ -30,6 +30,9 @@ export function ApplicationDetailsModal({
     application as Application
   );
 
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
   useEffect(() => {
     if (application) {
       setFormData({ ...application });
@@ -54,6 +57,8 @@ export function ApplicationDetailsModal({
   const handleSave = async (e: React.FormEvent) => {
       e.preventDefault();
 
+      setLoadingUpdate(true);
+
       try {
         const response = await update(application.uuid, formData);
 
@@ -63,10 +68,14 @@ export function ApplicationDetailsModal({
         handleClose();
       } catch (error) {
         console.error("Erro ao atualizar candidatura", error);
+      } finally {
+        setLoadingUpdate(false);
       }
     };
 
   const handleConfirmDelete = async () => {
+    setLoadingDelete(true);
+
     try {
       const response = await remove(application.uuid);
       showMessage.success(response.message);
@@ -74,6 +83,8 @@ export function ApplicationDetailsModal({
       handleClose();
     } catch(e) {
       console.error("Erro ao Excluir candidatura", e);
+    } finally {
+      setLoadingDelete(false);
     }
   };
 
@@ -115,9 +126,10 @@ export function ApplicationDetailsModal({
             </button>
             <button
               onClick={handleConfirmDelete}
-              className="px-3 py-1.5 text-xs font-medium text-white bg-rose-600 rounded-lg cursor-pointer hover:bg-rose-700 dark:bg-rose-700 dark:hover:bg-rose-600"
+              disabled={loadingDelete}
+              className="px-3 py-1.5 text-xs font-medium text-white bg-rose-600 rounded-lg cursor-pointer hover:bg-rose-700 dark:bg-rose-700 dark:hover:bg-rose-600 disabled:opacity-50"
             >
-              Confirmar Exclusão
+              {loadingDelete ? "Excluindo..." : "Confirmar Exclusão"}
             </button>
           </div>
         </div>
@@ -211,9 +223,10 @@ export function ApplicationDetailsModal({
             </button>
             <button
               type="submit"
-              className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors cursor-pointer"
+              disabled={loadingUpdate}
+              className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium cursor-pointer text-white bg-blue-600 hover:bg-blue-700 rounded-lg disabled:opacity-50"
             >
-              <Save className="w-4 h-4" /> Salvar Alterações
+              <Save className="w-4 h-4" />  {loadingUpdate ? "Salvando..." : "Salvar Alterações"}
             </button>
           </div>
         </form>
