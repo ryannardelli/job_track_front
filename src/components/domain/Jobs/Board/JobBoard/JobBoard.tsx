@@ -181,6 +181,6 @@ export function JobBoard() {
           application={selectedApplication}
           onClose={handleCloseDetails}
       />
-</>
+    </>
   );
 }

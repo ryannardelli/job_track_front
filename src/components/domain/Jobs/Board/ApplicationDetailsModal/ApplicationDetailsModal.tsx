@@ -147,6 +147,25 @@ export function ApplicationDetailsModal({
             </div>
 
             <div>
+                <label className="text-xs font-semibold text-gray-500 uppercase block mb-1">
+                  Status da Candidatura
+                </label>
+
+                <select
+                  name="status"
+                  value={formData.status}
+                  onChange={handleInputChange}
+                  className="w-full text-sm px-3 py-2 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="APPLIED">Candidatura enviada</option>
+                  <option value="INTERVIEW">Entrevista</option>
+                  <option value="OFFER">Proposta</option>
+                  <option value="REJECTED">Rejeitado</option>
+                  <option value="WISHLIST">Wishlist</option>
+                </select>
+              </div>
+
+            <div>
               <label className="text-xs font-semibold text-gray-500 uppercase block mb-1">Data da Candidatura</label>
               <input
                 type="date"
