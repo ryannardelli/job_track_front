@@ -35,13 +35,13 @@ export function KanbanColumn({ column, onCardClick }: KanbanColumnProps) {
       </div>
 
       <SortableContext
-        items={column.cards.map((card) => card.id)}
+        items={column.cards.map((card) => card.uuid)}
         strategy={verticalListSortingStrategy}
       >
         <div className="space-y-2.5 overflow-y-auto flex-1 pr-1">
           {column.cards.map((job) => (
             <JobCard
-              key={job.id}
+              key={job.uuid}
               job={job}
               isWishlist={column.title === "Wishlist"}
               onClick={() => onCardClick(job)}

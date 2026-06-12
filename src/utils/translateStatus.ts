@@ -1,6 +1,6 @@
 export function translateStatus(status: string): string {
   const statusMap: Record<string, string> = {
-    WISHLIST: "Lista de Desejos",
+    WISHLIST: "WishList",
     APPLIED: "Aplicada",
     INTERVIEW: "Entrevista",
     OFFER: "Oferta Recebida",

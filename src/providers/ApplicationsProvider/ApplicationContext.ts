@@ -15,13 +15,13 @@ type ApplicationContextType = {
   loadApplications: () => Promise<void>;
   loadApplicationBoard: () => Promise<void>;
 
-  create: (data: CreateApplicationDTO) => Promise<Application>;
+  create: (data: CreateApplicationDTO) => Promise<Application & { message: string }>;
   update: (
     uuid: string,
     data: UpdateApplicationDTO
-  ) => Promise<Application>;
+  ) => Promise<Application & { message: string }>;
 
-  remove: (uuid: string) => Promise<void>;
+  remove: (uuid: string) => Promise<void & { message: string }>;
 
   updateStatus: (
     uuid: string,

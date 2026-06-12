@@ -15,7 +15,6 @@ interface ApplicationDetailsModalProps {
   isOpen: boolean;
   application: Application | null;
   onClose: () => void;
-  onEdit: (updatedData: Application) => void;
 }
 
 export function ApplicationDetailsModal({
@@ -26,6 +25,7 @@ export function ApplicationDetailsModal({
   const { remove, update } = useApplications();
 
   const [isEditing, setIsEditing] = useState(false);
+  
   const [formData, setFormData] = useState<Application>(
     application as Application
   );
@@ -35,6 +35,7 @@ export function ApplicationDetailsModal({
       setFormData({ ...application });
     }
   }, [application, isOpen]);
+  
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   if (!application) return null;

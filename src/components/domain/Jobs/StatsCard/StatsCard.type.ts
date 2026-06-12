@@ -3,5 +3,6 @@ export interface StatsCardProps {
   value: number;
   sub: string;
   icon: string;
+  textColor: string;
   bgColor: string;
 }

@@ -1,9 +1,12 @@
+import { ApplicationCard } from "@/components/domain/Jobs/Board/JobBoard/types/ApplicationCard";
+
 export interface KanbanColumnProps {
   column: {
     id: string;
     title: string;
-    count: number;
     color: string;
-    cards: any[];
+    cards: ApplicationCard[];
   };
+
+  onCardClick: (application: ApplicationCard) => void;
 }
